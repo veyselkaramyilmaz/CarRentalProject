@@ -8,21 +8,34 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            //CarTest();
+            CarTest();
 
             //ColorTest();
 
-            BrandTest();
+            //BrandTest();
         }
 
         private static void BrandTest()
         {
             BrandManager brandManager = new BrandManager(new EfBrandDal());
 
-            foreach (var brand in brandManager.GetCarDetails())
+            var result = brandManager.GetAll();
+
+            if (result.Success==true)
             {
-                Console.WriteLine(brand.BrandName + "/" + brand.Descriptions);
+                foreach (var brand in result.Data)
+                {
+                Console.WriteLine(brand.BrandName);
+                }
             }
+
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+
+
+           
         }
 
         private static void ColorTest()
@@ -30,10 +43,19 @@ namespace ConsoleUI
             ColorManager colorManager = new ColorManager(new EfColorDal());
 
 
-            foreach (var color in colorManager.GetAll())
+            var result = colorManager.GetAll();
+            if (result.Success == true)
             {
+                foreach (var color in result.Data)
+                {
                 Console.WriteLine(color.ColorName);
+                }
             }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+            
         }
 
         private static void CarTest()
@@ -41,10 +63,19 @@ namespace ConsoleUI
             CarManager carManager = new CarManager(new EfCarDal());
 
 
+            var result = carManager.GetCarDetails();
 
-            foreach (var car in carManager.GetCarDetails())
+
+            if (result.Success == true)
             {
-                Console.WriteLine(car.ModelYear + "/" + car.BrandName);
+                foreach (var car in result.Data)
+                {
+                    Console.WriteLine(car.ModelYear + "/" + car.Descriptions);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
             }
         }
     }

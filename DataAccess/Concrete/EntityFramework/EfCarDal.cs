@@ -27,7 +27,6 @@ namespace DataAccess.Concrete.EntityFramework
                                  DailyPrice = c.DailyPrice,
                                  ModelYear = c.ModelYear,
                                  Descriptions = c.Descriptions,
-                                 BrandName = b.BrandName,
                                  BrandId = b.BrandId
                              };
 

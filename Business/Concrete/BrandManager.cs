@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -16,19 +18,23 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
-        public List<Brand> GetAll()
+        public IDataResult<List<Brand>> GetAll()
         {
-            return _brandDal.GetAll();
+            if (DateTime.Now.Hour == 22)
+            {
+                return new ErrorDataResult<List<Brand>>(Messages.MaintenanceTime);
+            }
+
+            return new SuccessDataResult<List<Brand>>(  _brandDal.GetAll());
         }
 
-        public List<Brand> GetAllByBrandName(string name)
+        public IDataResult<List<Brand>> GetAllByBrandName(string name)
         {
-            return _brandDal.GetAll(p => p.BrandName == name);
+
+
+            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(p => p.BrandName == name));
         }
 
-        public List<CarDetailDto> GetCarDetails()
-        {
-            return _brandDal.GetCarDetails();
-        }
+       
     }
 }
