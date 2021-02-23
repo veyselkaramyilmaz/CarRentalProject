@@ -6,6 +6,7 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Business.Concrete
@@ -40,23 +41,47 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>> (_carDal.GetAll(p => p.DailyPrice >= min && p.DailyPrice <= max));
         }
 
-        public IDataResult<List<CarDetailDto>> GetCarDetails()
+        public IDataResult<List<CarDetailDto>> GetCarDetails(Expression<Func<Car, bool>> filter = null)
         {
 
-            return new SuccessDataResult<List<CarDetailDto>>( _carDal.GetCarDetails());
+            return new SuccessDataResult<List<CarDetailDto>>( _carDal.GetCarDetails(filter));
         }
 
         public IResult Add(Car car)
         {
-            if (car.ModelYear.Length<4)
+            if (car.DailyPrice>0)
             {
-                return new ErrorResult(Messages.CarYearInvalid);
+                _carDal.Add(car);
+                return new SuccessResult(Messages.AddedCar);
+            }
+            else
+            {
+                return new ErrorResult(Messages.FailedCarAddOrUpdate);
+            }
+           
+            
+        }
+  
+
+        public IResult Update(Car car)
+        {
+            if (car.DailyPrice > 0)
+            {
+                _carDal.Update(car);
+                return new SuccessResult(Messages.UpdatedCar);
+            }
+            else
+            {
+                return new ErrorResult(Messages.FailedCarAddOrUpdate);
             }
 
-            _carDal.Add(car);
-            return new SuccessResult(Messages.CarAdded);
+
         }
 
-       
+        public IResult Delete(Car car)
+        {
+             _carDal.Delete(car);
+            return new SuccessResult(Messages.DeletedCar);
+        }
     }
 }
