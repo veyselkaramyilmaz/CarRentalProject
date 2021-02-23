@@ -18,8 +18,8 @@ namespace Core.DataAccess.EntityFramework
         {
             using (TContext context = new TContext())
             {
-                var addedEntity = context.Entry(entity);
-                addedEntity.State = EntityState.Added;
+                var addedBrand = context.Entry(entity);
+                addedBrand.State = EntityState.Added;
                 context.SaveChanges();
             }
         }
@@ -28,8 +28,8 @@ namespace Core.DataAccess.EntityFramework
         {
             using (TContext context = new TContext())
             {
-                var deletedEntity = context.Entry(entity);
-                deletedEntity.State = EntityState.Deleted;
+                var deletedBrand = context.Entry(entity);
+                deletedBrand.State = EntityState.Deleted;
                 context.SaveChanges();
             }
         }
@@ -55,8 +55,8 @@ namespace Core.DataAccess.EntityFramework
         {
             using (TContext context = new TContext())
             {
-                var updatedEntity = context.Entry(entity);
-                updatedEntity.State = EntityState.Modified;
+                var updatedBrand = context.Entry(entity);
+                updatedBrand.State = EntityState.Modified;
                 context.SaveChanges();
             }
         }
